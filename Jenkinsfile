@@ -1,23 +1,10 @@
 pipeline {
     agent {
         kubernetes {
-            defaultContainer 'jnlp',
-            yaml """
-apiVersion: v1
-kind: Pod
-metadata:
-  labels:
-    some-label: docker
-  containers:
-  - name: docker
-    image: docker:1.12.3-dind
-    command:
-    - cat
-    tty: true
-            """
+            defaultContainer 'jnlp'
+            yamlFile 'KubernetesPod.yaml'
         }
     }
-
     stages {
         stage('SonarQube analysis') {
             steps {
@@ -44,7 +31,7 @@ metadata:
         stage ('Build docker image') {
             steps {
                 script {
-                    container('docker') {
+                    container('docker'){
                         docker.build "bondblaze/react-app-demo:1"
                     }
                     
