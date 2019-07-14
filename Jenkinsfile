@@ -1,21 +1,55 @@
-podTemplate(label: 'jenkins-jenkins-slave ', containers: [
-    containerTemplate(name: 'docker', image: 'docker:1.12.3-dind', ttyEnabled: true, command: 'cat', privileged: true, instanceCap: 1),
-],
-volumes: [
-    hostPathVolume(mountPath: "/var/run/docker.sock", hostPath: "/var/run/docker.sock")
-])
-node() {
-    checkout scm
-    stage('SonarQube analysis') {
-        echo "Here analysis"
+pipeline {
+    agent {
+        kubernetes {
+            defaultContainer 'jnlp',
+            yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    some-label: docker
+  containers:
+  - name: docker
+    image: docker:1.12.3-dind
+    command:
+    - cat
+    tty: true
+            """
+        }
     }
-    stage('Install dependencies') {
-        sh 'npm install'
-    }
-    stage('Build') {
-        sh 'npm run build'
-    }
-    stage('Build docker image') {
-        docker.build "bondblaze/react-app-demo:test"
+
+    stages {
+        stage('SonarQube analysis') {
+            steps {
+                script {
+                    echo "Here analysis"
+                }
+            }
+        }
+        stage('Install dependencies') {
+            steps {
+                script {
+                    sh 'npm install'
+                }
+            }
+        }
+        stage('Build') {
+            steps {
+                script {
+                    sh 'npm run build'
+                }
+            }
+        }
+
+        stage ('Build docker image') {
+            steps {
+                script {
+                    container('docker') {
+                        docker.build "bondblaze/react-app-demo:1"
+                    }
+                    
+                }
+            }
+        }
     }
 }
