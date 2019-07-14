@@ -11,3 +11,4 @@ podTemplate(label: 'mypod', containers: [
             sh 'docker -v'
         }
     }
+  }
