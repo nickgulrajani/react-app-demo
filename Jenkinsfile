@@ -1,47 +1,12 @@
-pipeline {
-    agent {
-        kubernetes {
-            defaultContainer 'jnlp'
-            yamlFile 'KubernetesPod.yaml'
-        }
+podTemplate(containers: [
+    containerTemplate(name: 'jnlp', image: 'bondblaze/jnlp-slave:2', ttyEnabled: true, command: 'cat'),
+    containerTemplate(name: 'docker', image: 'docker:1.12.3-dind', ttyEnabled: true, command: 'cat')
+]) {
+  node('jenkins-jenkins-slave ') {
+    stage('test docker') {
+      container('docker') {
+        sh 'docker -v'
+      }
     }
-    stages {
-        stage('SonarQube analysis') {
-            steps {
-                script {
-                    echo "Here analysis"
-                }
-            }
-        }
-        stage('Install dependencies') {
-            steps {
-                script {
-                    container('jnlp') {
-                        sh 'npm install'
-                    }
-                }
-            }
-        }
-        stage('Build') {
-            steps {
-                script {
-                    container('jnlp') {
-                        sh 'npm run build'
-                    }
-                    
-                }
-            }
-        }
-
-        stage ('Build docker image') {
-            steps {
-                script {
-                    container('docker'){
-                        docker.build "bondblaze/react-app-demo:1"
-                    }
-                    
-                }
-            }
-        }
-    }
+  }
 }
