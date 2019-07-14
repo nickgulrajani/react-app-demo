@@ -24,13 +24,12 @@ pipeline {
             }
         }
 
-        // stage ('Buld docker image') {
-        //     steps {
-        //         script {
-        //             def app = docker.build "bondblaze/react-app-demo:${env.version}"
-        //             app.push()
-        //         }
-        //     }
-        // }
+        stage ('Build docker image') {
+            steps {
+                script {
+                    docker.build "bondblaze/react-app-demo:${env.version}"
+                }
+            }
+        }
     }
 }
