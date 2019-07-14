@@ -18,11 +18,13 @@ podTemplate(label: 'demo-deployer', containers: [
         stage('Build') {
             sh 'npm run build'
         }
-        stage('test') {
+        stage('Build docker image') {
             container('docker') {
-                // def app = docker.build "bondblaze/react-app-demo:${BUILD_NUMBER}"
-                sh 'docker build -t bondblaze/react-app-demo:${BUILD_NUMBER} .'
+                def app = docker.build "bondblaze/react-app-demo:${BUILD_NUMBER}"
             }
+        }
+        stage('Deploy to cluster') {
+            echo 'test'
         }
     }
   }
