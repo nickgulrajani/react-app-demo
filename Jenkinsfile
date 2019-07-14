@@ -8,7 +8,9 @@ podTemplate(label: 'mypod', containers: [
   ]) {
     node('mypod') {
         stage('test') {
-            sh 'docker -v'
+            container('docker') {
+                sh 'docker -v'
+            }
         }
     }
   }
