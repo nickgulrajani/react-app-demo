@@ -5,6 +5,11 @@ metadata:
     some-label: jenkins-docker
 spec:
   containers:
+  - name: jnlp
+    image: bondblaze/jnlp-slave:2
+    command:
+    - cat
+    tty: true
   - name: docker
     image: docker:1.12.3-dind
     command:
