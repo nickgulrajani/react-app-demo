@@ -8,6 +8,7 @@ podTemplate(label: 'demo-deployer', containers: [
     hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
   ]) {
     node('demo-deployer') {
+        checkout scm
         stage('SonarQube analysis') {
            sh 'ls -la'
         }
