@@ -9,7 +9,7 @@ podTemplate(label: 'demo-deployer', containers: [
   ]) {
     node('demo-deployer') {
         stage('SonarQube analysis') {
-            echo "Here analysis"
+           sh 'ls -la'
         }
         stage('Install dependencies') {
             sh 'npm install'
