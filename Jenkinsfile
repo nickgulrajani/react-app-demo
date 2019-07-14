@@ -1,5 +1,7 @@
-node('jenkins-jenkins-slave ') {
+node('jenkins-jenkins-slave') {
     stage('test docker') {
-      echo 'test'
+      container('docker') {
+        sh 'docker -v'
+      }
     }
 }
