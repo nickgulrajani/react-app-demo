@@ -16,14 +16,19 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 script {
-                    sh 'npm install'
+                    container('jnlp') {
+                        sh 'npm install'
+                    }
                 }
             }
         }
         stage('Build') {
             steps {
                 script {
-                    sh 'npm run build'
+                    container('jnlp') {
+                        sh 'npm run build'
+                    }
+                    
                 }
             }
         }
