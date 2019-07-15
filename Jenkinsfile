@@ -33,7 +33,7 @@ podTemplate(label: 'demo-deployer', containers: [
         }
         stage('Deploy to kubernetes cluster') {
             container('kubectl') {
-                sh 'kubectl apply -f react_app.yaml'
+                sh 'kubectl --namespace=lpl-development apply -f react_app.yaml'
             }
         }
     }
