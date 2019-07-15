@@ -15,12 +15,13 @@ podTemplate(label: 'demo-deployer', containers: [
         stage('Install dependencies') {
             sh 'npm install'
         }
-        stage('Build') {
+        stage('Build package') {
             sh 'npm run build'
         }
         stage('Build docker image') {
             container('docker') {
                 def app = docker.build "bondblaze/react-app-demo:latest"
+                app.push()
             }
         }
         stage('Deploy to cluster') {
