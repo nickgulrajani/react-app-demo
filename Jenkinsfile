@@ -25,8 +25,10 @@ podTemplate(label: 'demo-deployer', containers: [
             }
         }
         stage('Push image to registry') {
-            docker.withRegistry( '', 'registryCredential' ) {
-                app.push()
+            container('docker') {
+                docker.withRegistry( '', 'registryCredential' ) {
+                    app.push()
+                }
             }
         }
         stage('Deploy to cluster') {
