@@ -1,0 +1,46 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: ract-app
+  name: react-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: react-app
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: react-app
+    spec:
+      containers:
+        - image: docker.io/bondblaze/microservice-kubernetes-demo-order:latest
+          name: react-app
+          ports:
+            - containerPort: 80
+          resources: {}
+status: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    run: react-app
+  name: react-app
+spec:
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    run: react-app
+  type: LoadBalancer
+status:
+  loadBalancer: {}

@@ -20,7 +20,7 @@ podTemplate(label: 'demo-deployer', containers: [
         }
         stage('Build docker image') {
             container('docker') {
-                def app = docker.build "bondblaze/react-app-demo:${BUILD_NUMBER}"
+                def app = docker.build "bondblaze/react-app-demo:latest"
             }
         }
         stage('Deploy to cluster') {
