@@ -22,7 +22,6 @@ podTemplate(label: 'demo-deployer', containers: [
         stage('Build docker image') {
             container('docker') {
                 app = docker.build "bondblaze/react-app-demo:latest"
-                app.push()
             }
         }
         stage('Push image to registry') {
