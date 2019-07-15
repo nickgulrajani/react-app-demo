@@ -14,6 +14,7 @@ podTemplate(label: 'demo-deployer', containers: [
         stage('SonarQube analysis') {
            container('sonar') {
                sh 'ls -la'
+               sh 'pwd'
                sh 'sonar-scanner -D sonar-project.properties'
            }
         }
