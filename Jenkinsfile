@@ -13,6 +13,7 @@ podTemplate(label: 'demo-deployer', containers: [
         checkout scm
         stage('SonarQube analysis') {
            container('sonar') {
+               sh 'ls -la'
                sh 'sonar-scanner -D sonar-project.properties'
            }
         }
