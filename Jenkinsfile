@@ -32,7 +32,10 @@ podTemplate(label: 'demo-deployer', containers: [
             }
         }
         stage('Deploy to cluster') {
-            echo 'test'
+            container('kubectl') {
+                sh "kubectl delete -f react_app.yaml"
+                sh 'kubectl apply -f react_app.yaml'
+            }
         }
     }
   }
