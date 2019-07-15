@@ -18,7 +18,7 @@ spec:
         run: react-app
     spec:
       containers:
-        - image: docker.io/bondblaze/microservice-kubernetes-demo-order:latest
+        - image: docker.io/bondblaze/react-app-demo:latest
           name: react-app
           ports:
             - containerPort: 80
