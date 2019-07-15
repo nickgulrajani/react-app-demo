@@ -8,6 +8,7 @@ podTemplate(label: 'demo-deployer', containers: [
     hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
   ]) {
     node('demo-deployer') {
+        def app
         checkout scm
         stage('SonarQube analysis') {
            sh 'ls -la'
@@ -20,7 +21,12 @@ podTemplate(label: 'demo-deployer', containers: [
         }
         stage('Build docker image') {
             container('docker') {
-                def app = docker.build "bondblaze/react-app-demo:latest"
+                app = docker.build "bondblaze/react-app-demo:latest"
+                app.push()
+            }
+        }
+        stage('Push image to registry') {
+            docker.withRegistry( '', registryCredential ) {
                 app.push()
             }
         }
