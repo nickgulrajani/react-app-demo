@@ -11,6 +11,11 @@ podTemplate(label: 'demo-deployer', containers: [
     node('demo-deployer') {
         def app
         checkout scm
+        stage('SonarQube analysis') {
+           container('sonar') {
+               sh 'sonar-scanner -D sonar-project.properties'
+           }
+        }
         stage('Install dependencies') {
             sh 'npm install'
         }
