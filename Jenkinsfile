@@ -11,24 +11,6 @@ podTemplate(label: 'demo-deployer', containers: [
     node('demo-deployer') {
         def app
         checkout scm
-        stage('Install dependencies') {
-            sh 'npm install'
-        }
-        stage('Build package') {
-            sh 'npm run build'
-        }
-        stage('Build docker image') {
-            container('docker') {
-                app = docker.build "bondblaze/react-app-demo:latest"
-            }
-        }
-        stage('Push image to registry') {
-            container('docker') {
-                docker.withRegistry( '', 'registryCredential' ) {
-                    app.push()
-                }
-            }
-        }
         stage('Deploy to kubernetes cluster') {
             container('kubectl') {
                 sh 'kubectl apply -f react_app.yaml'
