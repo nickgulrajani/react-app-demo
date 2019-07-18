@@ -18,6 +18,7 @@ podTemplate(label: 'demo-deployer', containers: [
         }
         stage('Install dependencies') {
             sh 'npm install'
+            sh 'npm audit fix'     
         }
         stage('Build package') {
             sh 'npm run build'
